@@ -11,6 +11,5 @@ repositories {
 }
 
 dependencies {
-    // Aquí agregamos las dependencias necesarias en formato Kotlin DSL
-    classpath(libs.google.services)  // Esto es para Google Services Plugin
+
 }
