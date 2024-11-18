@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace = "com.example.poofinal"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.poofinal"
@@ -32,12 +32,18 @@ android {
 }
 
 dependencies {
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation(libs.play.services.maps)
+    implementation (libs.play.services.location)
+    implementation (libs.core.ktx )
+    implementation (libs.lifecycle.runtime.ktx)
+    implementation (libs.material.v180)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
 }

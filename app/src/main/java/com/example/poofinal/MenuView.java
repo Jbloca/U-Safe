@@ -29,5 +29,11 @@ public class MenuView extends AppCompatActivity {
             Intent intent = new Intent(MenuView.this, CodigoView.class);
             startActivity(intent);
         });
+
+        ImageButton imageButton5 = findViewById(R.id.imageButton5);
+        imageButton5.setOnClickListener(view -> {
+            Intent intentUbi = new Intent(MenuView.this, shareContactosView.class);
+            startActivity(intentUbi);
+        });
     }
 }
