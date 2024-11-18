@@ -1,6 +1,8 @@
 package com.example.poofinal;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +21,12 @@ public class borrarDataView extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+        Button Guardardatos = findViewById(R.id.btncambios);
+        Guardardatos.setOnClickListener(view -> {
+            Intent cambios = new Intent(borrarDataView.this, MenuView.class);
+            startActivity(cambios);
+
         });
     }
 }

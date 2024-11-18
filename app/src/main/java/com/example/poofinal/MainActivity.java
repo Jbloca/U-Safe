@@ -7,13 +7,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btn_login;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,12 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(getApplicationContext(), "Usuario Incorrecto", Toast.LENGTH_SHORT).show();
             }
+        });
+        Button btn_registrar = findViewById(R.id.btn_registrar);
+        btn_registrar.setOnClickListener(view -> {
+            Intent register = new Intent(MainActivity.this, ConfigurarPin.class);
+            startActivity(register);
+
         });
     }
 }
