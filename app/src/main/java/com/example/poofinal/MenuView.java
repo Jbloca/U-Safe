@@ -39,6 +39,6 @@ public class MenuView extends AppCompatActivity {
             Intent intent = new Intent(MenuView.this, borrarDataView.class);
             startActivity(intent);
         });
-        //btn borrar
+
     }
 }
