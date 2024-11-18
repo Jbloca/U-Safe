@@ -43,7 +43,7 @@ public class CodigoView extends AppCompatActivity {
         for (int i = 0; i < editTexts.length; i++) {
             final int index = i; // Índice actual
 
-            // Listener para tecla de retroceso
+
             editTexts[i].setOnKeyListener((v, keyCode, event) -> {
                 if (keyCode == KeyEvent.KEYCODE_DEL && event.getAction() == KeyEvent.ACTION_DOWN) {
                     // Si el cuadro actual está vacío y no es el primero, mover al cuadro anterior
