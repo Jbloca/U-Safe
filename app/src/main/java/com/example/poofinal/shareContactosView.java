@@ -1,160 +1,145 @@
 package com.example.poofinal;
 
 import android.Manifest;
+import android.content.ContentResolver;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Button;
+import android.provider.ContactsContract;
+import android.widget.ImageView;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.MapView;
 
-public class shareContactosView extends AppCompatActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
+import org.osmdroid.api.IMapController;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+
+
+import java.util.ArrayList;
+
+public class shareContactosView extends AppCompatActivity {
+
+    private static final int REQUEST_CODE_CONTACTS = 1;
+    private static final int REQUEST_CODE_LOCATION = 2;
+
     private MapView mapView;
-    private FusedLocationProviderClient fusedLocationClient;
+    private org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay locationOverlay;
+    private ScrollView scrollView2;
+    private TextView selectedContactsView;
 
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-    private static final String TAG = "shareContactosView";
+    private ArrayList<String> selectedContacts = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share_contactos_view);
-        setContentView(R.layout.activity_share_contactos_view);
-        Log.d(TAG, "onCreate: Activity created");
 
-
-        // Inicializa MapView
+        // Referencias a los elementos
         mapView = findViewById(R.id.mapView);
-        mapView.onCreate(savedInstanceState);
-        mapView.getMapAsync(this);
+        scrollView2 = findViewById(R.id.scrollView2);
+        selectedContactsView = new TextView(this); // Usamos un TextView para mostrar los contactos seleccionados
+        scrollView2.addView(selectedContactsView);
 
-        // Inicializa FusedLocationProviderClient
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        // Configurar mapa
+        setupMap();
 
-        // Configura el botón de compartir ubicación
-        Button shareUbiButton = findViewById(R.id.shareUbi);
-        shareUbiButton.setOnClickListener(v -> shareLocation());
-        Log.d(TAG, "shareUbiButton clicked");
-        shareLocation();
+        // Configurar botón de agregar contacto
+        ImageView imageView2 = findViewById(R.id.imageView2);
+        imageView2.setOnClickListener(v -> openContactsApp());
+
+        // Pedir permisos de ubicación si no están concedidos
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION);
+        }
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        enableMyLocation();
+    private void setupMap() {
+        mapView.setTileSource(org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK);
+        mapView.setBuiltInZoomControls(true);
+        mapView.setMultiTouchControls(true);
+
+        // Definir coordenadas para Lima, Perú
+        double lat = -12.0464;
+        double lon = -77.0428;
+
+        IMapController mapController = mapView.getController();
+        mapController.setZoom(12);
+        mapController.setCenter(new GeoPoint(lat, lon));
+
+
+        // Agregar el overlay para la ubicación
+        locationOverlay = new org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay(mapView);
+        locationOverlay.enableMyLocation();
+        mapView.getOverlays().add(locationOverlay);
     }
 
-    private void enableMyLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+    private void openContactsApp() {
+        // Verificar permisos para acceder a los contactos
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CODE_CONTACTS);
         } else {
-            mMap.setMyLocationEnabled(true);
+            Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+            startActivityForResult(intent, REQUEST_CODE_CONTACTS);
         }
-    }
-
-    private void shareLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "Permisos de ubicación no concedidos", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
-            if (location != null) {
-                String locationText = "Lat: " + location.getLatitude() + ", Lng: " + location.getLongitude();
-                Toast.makeText(this, "Ubicación: " + locationText, Toast.LENGTH_SHORT).show();
-                // Aquí puedes agregar más lógica para compartir la ubicación
-            } else {
-                Log.w(TAG, "Last location is null, requesting new location...");
-                requestNewLocation();
-            }
-
-        });
-    }
-    private void requestNewLocation() {
-        LocationRequest locationRequest = LocationRequest.create()
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(10000)
-                .setFastestInterval(5000);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        fusedLocationClient.requestLocationUpdates(locationRequest, new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                Location location = locationResult.getLastLocation();
-                if (location != null) {
-                    String locationText = "Lat: " + location.getLatitude() + ", Lng: " + location.getLongitude();
-                    Toast.makeText(shareContactosView.this, "Ubicación: " + locationText, Toast.LENGTH_SHORT).show();
-                    fusedLocationClient.removeLocationUpdates(this);
-                }
-            }
-        }, getMainLooper());
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_CONTACTS && resultCode == RESULT_OK && data != null) {
+            // Obtener el contacto seleccionado
+            String contactId = data.getData().getLastPathSegment();
+            retrieveContactDetails(contactId);
+        }
+    }
+
+    private void retrieveContactDetails(String contactId) {
+        ContentResolver contentResolver = getContentResolver();
+        Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, ContactsContract.Contacts._ID + " = ?", new String[]{contactId}, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+            selectedContacts.add(contactName);
+            cursor.close();
+
+            // Actualizar la vista para mostrar los contactos seleccionados
+            updateSelectedContacts();
+        }
+    }
+
+    private void updateSelectedContacts() {
+        StringBuilder contactsText = new StringBuilder();
+        for (String contact : selectedContacts) {
+            contactsText.append(contact).append("\n");
+        }
+        selectedContactsView.setText(contactsText.toString());
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+        if (requestCode == REQUEST_CODE_CONTACTS) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                enableMyLocation();
+                openContactsApp();
             } else {
-                Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Permission denied to read contacts", Toast.LENGTH_SHORT).show();
             }
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (mapView != null) {
-            mapView.onResume();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (mapView != null) {
-            mapView.onPause();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mapView != null) {
-            mapView.onDestroy();
-        }
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        if (mapView != null) {
-            mapView.onLowMemory();
+        } else if (requestCode == REQUEST_CODE_LOCATION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                setupMap(); // Si se conceden los permisos, inicializamos el mapa.
+            } else {
+                Toast.makeText(this, "Permission denied to access location", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
+
+

@@ -1,12 +1,13 @@
 pluginManagement {
     repositories {
-        mavenCentral()
         gradlePluginPortal()
+        google()// Asegúrate de que este esté aquí
+        mavenCentral()
     }
 }
 
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    this.repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()      // Este repositorio se gestiona desde aquí
         mavenCentral() // Maven Central

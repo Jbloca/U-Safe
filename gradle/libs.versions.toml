@@ -3,7 +3,7 @@ agp = "8.7.2"
 coreKtx = "1.15.0"
 firebaseAuth = "21.0.6"
 firebaseBom = "33.6.0"
-firebaseDatabaseVersion = "20.0.5"
+firebaseDatabaseVersion = "21.0.0"
 googleServices = "4.3.15"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -13,14 +13,18 @@ lifecycleRuntimeKtx = "2.8.7"
 material = "1.12.0"
 activity = "1.9.3"
 constraintlayout = "2.2.0"
-materialVersion = "1.8.0"
+materialVersion = "1.12.0"
+osmdroidAndroid = "6.1.20"
+osmdroidAndroidJarjar = "6.1.10"
+playServicesAuth = "20.7.0"
 playServicesLocation = "21.3.0"
 playServicesMaps = "19.0.0"
+firebaseFirestore = "25.1.1"
 
 [libraries]
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
-firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
-firebase-auth = { module = "com.google.firebase:firebase-auth", version.ref = "firebaseAuth" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics", version = "22.1.2" }
+firebase-auth = { module = "com.google.firebase:firebase-auth", version = "23.1.0" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 google-firebase-database = { module = "com.google.firebase:firebase-database", version.ref = "firebaseDatabaseVersion" }
 google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
@@ -33,8 +37,12 @@ material = { group = "com.google.android.material", name = "material", version.r
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 material-v180 = { module = "com.google.android.material:material", version.ref = "materialVersion" }
+osmdroid-android = { module = "org.osmdroid:osmdroid-android", version.ref = "osmdroidAndroid" }
+osmdroid-android-jarjar = { module = "org.osmdroid:osmdroid-android-jarjar", version.ref = "osmdroidAndroidJarjar" }
+play-services-auth = { module = "com.google.android.gms:play-services-auth", version = "21.2.0" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

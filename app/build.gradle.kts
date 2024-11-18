@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
-    id("com.google.gms.google-services")  // Aplica el plugin de Google Services
+    id("com.google.gms.google-services") version "4.4.2" // Apply Google Services plugin
 }
 
 android {
@@ -13,7 +13,6 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -31,7 +30,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-
 }
 
 dependencies {
@@ -44,13 +42,17 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.material.v180)
+    implementation(libs.firebase.firestore)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    // Firebase y dependencias relacionadas
+    // Firebase and related dependencies
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.google.firebase.database)
     implementation(libs.firebase.auth)
+    implementation(libs.play.services.auth)
+    implementation(libs.osmdroid.android)
+    implementation ("org.osmdroid:osmdroid-android:6.1.20")
 }
