@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services")  // Aplica el plugin de Google Services
 }
 
 android {
@@ -25,10 +26,12 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
 }
 
 dependencies {
@@ -37,13 +40,17 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.play.services.maps)
-    implementation (libs.play.services.location)
-    implementation (libs.core.ktx )
-    implementation (libs.lifecycle.runtime.ktx)
-    implementation (libs.material.v180)
+    implementation(libs.play.services.location)
+    implementation(libs.core.ktx)
+    implementation(libs.lifecycle.runtime.ktx)
+    implementation(libs.material.v180)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    // Firebase y dependencias relacionadas
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
+    implementation(libs.google.firebase.database)
+    implementation(libs.firebase.auth)
 }
