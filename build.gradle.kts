@@ -1,15 +1,17 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
-plugins {
-    alias(libs.plugins.android.application) apply false
-    // Agrega aquí el plugin de Google Services, si es necesario, más abajo
+buildscript {
+    repositories {
+        google()  // Asegúrate de tener este repositorio
+        mavenCentral()
+    }
+    dependencies {
+        classpath(libs.google.services)  // Usa la última versión disponible
+    }
 }
 
-repositories {
-    google()
-    mavenCentral()
+allprojects {
+    repositories {
+        google()  // Asegúrate de tener este repositorio también
+        mavenCentral()
+    }
 }
 
-dependencies {
-
-}
