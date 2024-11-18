@@ -55,7 +55,7 @@ public class CodigoView extends AppCompatActivity {
                 return false;
             });
 
-            // TextWatcher para avanzar automáticamente
+
             editTexts[i].addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
