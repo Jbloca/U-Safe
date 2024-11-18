@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         Button btn_registrar = findViewById(R.id.btn_registrar);
         btn_registrar.setOnClickListener(view -> {
             Intent register = new Intent(MainActivity.this, ConfigurarPin.class);
-            startActivity(register)
+            startActivity(register);
 
         });
     }
