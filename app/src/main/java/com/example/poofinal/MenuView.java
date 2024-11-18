@@ -29,5 +29,6 @@ public class MenuView extends AppCompatActivity {
             Intent intent = new Intent(MenuView.this, CodigoView.class);
             startActivity(intent);
         });
+
     }
 }
