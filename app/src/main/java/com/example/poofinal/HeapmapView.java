@@ -16,7 +16,6 @@ public class HeapmapView extends AppCompatActivity {
 
             WebView webView = findViewById(R.id.webview);
 
-            // Configurar el WebView
             WebSettings webSettings = webView.getSettings();
             webSettings.setJavaScriptEnabled(true); // Habilitar JavaScript si es necesario
             webSettings.setDomStorageEnabled(true); // Habilitar almacenamiento DOM
