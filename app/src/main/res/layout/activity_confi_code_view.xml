@@ -41,19 +41,17 @@
 
     <com.google.android.material.chip.Chip
         android:id="@+id/chip"
-        android:layout_width="402dp"
-        android:layout_height="74dp"
-        android:background="#3E0101"
-        android:button="@android:drawable/menuitem_background"
-        android:drawableRight="@android:drawable/ic_menu_send"
-        app:chipBackgroundColor="#3E0101"
-        app:chipStrokeColor="#F8F2F2"
+        android:layout_width="219dp"
+        android:layout_height="39dp"
+        app:chipBackgroundColor="@color/white"
+        app:chipIcon="@android:drawable/ic_menu_send"
+        app:chipStrokeColor="@color/black"
+        app:chipStrokeWidth="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10"
-        app:layout_constraintVertical_bias="0.086" />
+        app:layout_constraintVertical_bias="0.08"
+        tools:layout_editor_absoluteX="16dp"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/textView11"
@@ -64,7 +62,7 @@
         android:textColor="#FAFAFA"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/chip"
-        app:layout_constraintHorizontal_bias="0.096"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/chip"
         app:layout_constraintTop_toTopOf="@+id/chip"
         tools:ignore="MissingConstraints" />
@@ -123,21 +121,16 @@
         app:layout_constraintStart_toStartOf="@+id/chip2"
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switch4"
         android:layout_width="390dp"
         android:layout_height="57dp"
-        android:gravity="top"
-        android:text="Acticar el modo oculto"
+        android:text="Activar el modo oculto"
         android:textColor="#FAFAFA"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.571"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chip2"
-        app:layout_constraintVertical_bias="0.071"
-        tools:ignore="UseSwitchCompatOrMaterialXml" />
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/textView16"
