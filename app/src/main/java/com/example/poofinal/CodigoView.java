@@ -89,7 +89,7 @@ public class CodigoView extends AppCompatActivity {
 
             if (enteredPin.equals(correctPin)) {
                 Toast.makeText(CodigoView.this, "PIN Correcto", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(CodigoView.this, confiCodeView.class);
+                Intent intent = new Intent(CodigoView.this, CofiCodeView.class);
                 startActivity(intent);
             } else {
                 Toast.makeText(CodigoView.this, "PIN Incorrecto", Toast.LENGTH_SHORT).show();

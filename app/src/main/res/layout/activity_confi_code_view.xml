@@ -41,8 +41,8 @@
 
     <com.google.android.material.chip.Chip
         android:id="@+id/chip"
-        android:layout_width="219dp"
-        android:layout_height="39dp"
+        android:layout_width="0dp"
+        android:layout_height="13dp"
         app:chipBackgroundColor="@color/white"
         app:chipIcon="@android:drawable/ic_menu_send"
         app:chipStrokeColor="@color/black"
@@ -50,22 +50,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10"
         app:layout_constraintVertical_bias="0.08"
-        tools:layout_editor_absoluteX="16dp"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="237dp"
-        android:layout_height="27dp"
-        android:layout_marginTop="4dp"
-        android:text="Bloquear Apps Sensibles"
-        android:textColor="#FAFAFA"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/chip"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/chip"
-        app:layout_constraintTop_toTopOf="@+id/chip"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="16dp" />
 
     <TextView
         android:id="@+id/textView12"
@@ -76,9 +62,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/chip"
         app:layout_constraintEnd_toEndOf="@+id/chip"
         app:layout_constraintHorizontal_bias="0.078"
-        app:layout_constraintStart_toStartOf="@+id/chip"
-        app:layout_constraintTop_toBottomOf="@+id/textView11"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="@+id/chip" />
 
     <com.google.android.material.chip.Chip
         android:id="@+id/chip2"
