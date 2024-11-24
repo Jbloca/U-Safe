@@ -2,6 +2,7 @@ package com.example.poofinal.View;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -29,6 +30,10 @@ public class ConfigCodeView extends AppCompatActivity {
         // Botón para abrir BorraDataView
         Button button2 = findViewById(R.id.button2);
         button2.setOnClickListener(v -> controlador.abrirBorraDataView());
+
+        // Botón para retrocer MenuView
+        ImageView btn_back = findViewById(R.id.btn_back);
+        btn_back.setOnClickListener(v -> controlador.abrirMenuView());
 
         // Switch para activar o desactivar el modo oculto
         switch1 = findViewById(R.id.switch1);

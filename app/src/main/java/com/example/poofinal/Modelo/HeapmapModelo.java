@@ -5,7 +5,7 @@ public class HeapmapModelo {
     private String mapUrl;
 
     public HeapmapModelo() {
-        this.mapUrl = "https://especiales.elcomercio.pe/?q=especiales/mapa-del-delito-ecpm/index.html"; // URL predeterminada
+        this.mapUrl = "https://datacrim.inei.gob.pe/ciudadano/";
     }
 
     public String getMapUrl() {

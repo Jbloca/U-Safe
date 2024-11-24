@@ -1,7 +1,5 @@
 package com.example.poofinal.View;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,9 +7,6 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.poofinal.R;
-import com.example.poofinal.View.CodigoView;
-import com.example.poofinal.View.ShareContactosView;
-import com.example.poofinal.View.HeapmapView;
 import com.example.poofinal.maps;
 
 public class MenuView extends AppCompatActivity {
