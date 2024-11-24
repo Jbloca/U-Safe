@@ -1,21 +1,19 @@
 package com.example.poofinal;
 
 public class Contact {
-    private String name;
-    private String phone;
+    private final String name;
+    private final String phoneNumber;
 
-    // Constructor
-    public Contact(String name, String phone) {
+    public Contact(String name, String phoneNumber) {
         this.name = name;
-        this.phone = phone;
+        this.phoneNumber = phoneNumber;
     }
 
-    // Getters
     public String getName() {
         return name;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 }

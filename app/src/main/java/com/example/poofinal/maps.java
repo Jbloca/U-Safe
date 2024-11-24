@@ -4,9 +4,11 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.telephony.SmsManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -17,6 +19,12 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -32,9 +40,12 @@ public class maps extends AppCompatActivity implements OnMapReadyCallback, Googl
     private GoogleMap map;
     private static final int REQUEST_CODE_LOCATION = 1;
     private static final int REQUEST_CODE_CONTACTS = 2;
+    private static final int REQUEST_CODE_SMS = 3;
     private RecyclerView recyclerView;
     private ContactAdapter contactAdapter;
     private List<Contact> contactList = new ArrayList<>();
+    private FusedLocationProviderClient fusedLocationClient;
+    private LocationCallback locationCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +63,16 @@ public class maps extends AppCompatActivity implements OnMapReadyCallback, Googl
         // Botón para abrir contactos
         Button btnOpenContacts = findViewById(R.id.btn_open_contacts);
         btnOpenContacts.setOnClickListener(v -> openContactsApp());
+
+        // Botón para compartir ubicación
+        Button btnShareLocation = findViewById(R.id.btn_shareLocation);
+        btnShareLocation.setOnClickListener(v -> startLocationUpdates());
+
+        // Configurar cliente de ubicación
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        // Solicitar permisos
+        requestPermissions();
 
         createFragment();
     }
@@ -86,27 +107,15 @@ public class maps extends AppCompatActivity implements OnMapReadyCallback, Googl
         if (map == null) return;
 
         if (isLocationPermissionGranted()) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
-            }
             map.setMyLocationEnabled(true);
         } else {
-            requestLocationPermission();
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION);
         }
     }
 
-    private void requestLocationPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-            Toast.makeText(this, "Ve a ajustes y acepta los permisos", Toast.LENGTH_SHORT).show();
-        } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION);
+    private void requestPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, REQUEST_CODE_SMS);
         }
     }
 
@@ -163,8 +172,75 @@ public class maps extends AppCompatActivity implements OnMapReadyCallback, Googl
         Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
         startActivityForResult(intent, REQUEST_CODE_CONTACTS);
     }
+
+    // Método para iniciar actualizaciones de ubicación
+    private void startLocationUpdates() {
+        LocationRequest locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000) // Actualización cada 10 segundos
+                .setMinUpdateIntervalMillis(5000) // Intervalo mínimo de 5 segundos
+                .build();
+
+        // Configurar el LocationCallback
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                if (locationResult == null) return;
+
+                // Obtener la última ubicación
+                Location location = locationResult.getLastLocation();
+                if (location != null) {
+                    double latitude = location.getLatitude();
+                    double longitude = location.getLongitude();
+
+                    // Mostrar la ubicación en el mapa
+                    LatLng currentLocation = new LatLng(latitude, longitude);
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f));
+
+                    // Compartir la ubicación actualizada con los contactos
+                    sendLocationToContacts(latitude, longitude);
+                }
+            }
+        };
+
+        // Verificar permisos y solicitar actualizaciones de ubicación
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, getMainLooper());
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION);
+        }
+    }
+
+    // Método para detener actualizaciones de ubicación
+    private void stopLocationUpdates() {
+        if (locationCallback != null) {
+            fusedLocationClient.removeLocationUpdates(locationCallback);
+        }
+    }
+
+    // Método para enviar la ubicación a los contactos
+    private void sendLocationToContacts(double latitude, double longitude) {
+        String locationLink = "https://www.google.com/maps?q=" + latitude + "," + longitude;
+
+        for (Contact contact : contactList) {
+            try {
+                SmsManager smsManager = SmsManager.getDefault();
+                smsManager.sendTextMessage(contact.getPhoneNumber(), null,
+                        "Hola " + contact.getName() + ", mi ubicación actual es: " + locationLink,
+                        null, null);
+
+                Toast.makeText(maps.this, "Ubicación enviada a " + contact.getName(), Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Toast.makeText(maps.this, "Error al enviar SMS a " + contact.getName(), Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Detener actualizaciones de ubicación al salir de la actividad
+        stopLocationUpdates();
+    }
 }
-
-
 
 
