@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.poofinal"
-        minSdk = 34
+        minSdk = 30
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -48,6 +48,7 @@ dependencies {
     implementation(libs.firebase.firestore)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+    implementation(libs.recyclerview)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -60,4 +61,7 @@ dependencies {
     implementation(libs.play.services.auth)
     implementation(libs.osmdroid.android)
     implementation ("org.osmdroid:osmdroid-android:6.1.20")
+    implementation (libs.github.glide)
+    annotationProcessor (libs.compiler)
+    implementation (libs.recyclerview.v131)
 }

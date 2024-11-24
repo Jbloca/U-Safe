@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Permisos necesarios para la ubicación y Google Maps -->
+<manifest xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Permisos necesarios  -->
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -8,6 +13,16 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
+    <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="32"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+
+
 
     <application
         android:allowBackup="true"
@@ -23,32 +38,26 @@
             android:exported="false"
             android:theme="@style/Theme.PooFinal" />
         <activity
-            android:name=".HeapmapView"
+            android:name=".View.HeapmapView"
             android:exported="false" />
         <activity
-            android:name=".verificarPin"
+            android:name=".Controlador.VerificarPin"
             android:exported="false" />
         <activity
-            android:name=".ConfigurarPin"
+            android:name=".View.ShareContactosView"
             android:exported="false" />
         <activity
-            android:name=".shareContactosView"
-            android:exported="false" />
-        <activity
-            android:name=".borrarDataView"
+            android:name=".BorraDataActivity"
             android:exported="false" />
         <activity
             android:name=".appsConfiguracionView"
             android:exported="false" />
         <activity
-            android:name=".confiCodeView"
+            android:name=".View.CodigoView"
             android:exported="false" />
         <activity
-            android:name=".CodigoView"
+            android:name=".View.MenuView"
             android:exported="false" />
-        <activity
-            android:name=".MenuView"
-            android:exported="false" /> <!-- MainActivity como la actividad de inicio de la app -->
         <activity
             android:name=".MainActivity"
             android:exported="true">

@@ -6,13 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#3E0101"
-    tools:context=".borrarDataView">
+    tools:context=".BorraDataActivity">
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Eliminar datos criticos"
+        android:text="Eliminar datos críticos"
         android:textColor="#FAFAFA"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -29,10 +29,10 @@
         android:backgroundTint="#3E0101"
         app:layout_constraintBottom_toTopOf="@+id/textView17"
         app:layout_constraintEnd_toStartOf="@+id/textView6"
-        app:layout_constraintHorizontal_bias="0.01"
+        app:layout_constraintHorizontal_bias="0.017"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.159"
         app:srcCompat="?attr/homeAsUpIndicator" />
 
     <TextView
@@ -58,10 +58,10 @@
         tools:layout_editor_absoluteX="1dp"
         tools:ignore="MissingConstraints">
 
+        <!-- TableRows with Checkboxes -->
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <TextView
                 android:id="@+id/textView19"
                 android:layout_width="wrap_content"
@@ -71,7 +71,6 @@
                 android:text="Contactos"
                 android:textColor="#FAFAFA"
                 android:textSize="14sp" />
-
             <CheckBox
                 android:id="@+id/checkBox8"
                 android:layout_width="wrap_content"
@@ -81,105 +80,60 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <TextView
                 android:id="@+id/textView20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginEnd="288dp"
-                android:text="Fotos"
-                android:textColor="#FAFAFA" />
-
+                android:layout_marginEnd="290dp"
+                android:text="Archivos"
+                android:textColor="#FAFAFA"
+                android:textSize="14sp" />
             <CheckBox
                 android:id="@+id/checkBox9"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="" />
+                android:layout_height="wrap_content" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <TextView
                 android:id="@+id/textView21"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="290dp"
-                android:text="Mensajes"
-                android:textColor="#FAFAFA" />
-
+                android:text="Fotos"
+                android:textColor="#FAFAFA"
+                android:textSize="14sp" />
             <CheckBox
                 android:id="@+id/checkBox10"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="" />
-
+                android:layout_height="wrap_content" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <TextView
                 android:id="@+id/textView22"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="290dp"
-                android:text="Videos"
-                android:textColor="#FAFAFA" />
-
+                android:text="Mensajes"
+                android:textColor="#FAFAFA"
+                android:textSize="14sp" />
             <CheckBox
                 android:id="@+id/checkBox11"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="" />
-
+                android:layout_height="wrap_content" />
         </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/textView23"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="290dp"
-                android:text="Notas"
-                android:textColor="#FAFAFA" />
-
-            <CheckBox
-                android:id="@+id/checkBox14"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/textView24"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="290dp"
-                android:text="Calendario"
-                android:textColor="#FAFAFA" />
-
-            <CheckBox
-                android:id="@+id/checkBox15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="" />
-        </TableRow>
     </TableLayout>
+
     <Button
         android:id="@+id/btncambios"
         android:layout_width="wrap_content"
@@ -191,3 +145,4 @@
         android:layout_marginBottom="240dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
