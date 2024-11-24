@@ -40,6 +40,7 @@ public class CodigoView extends AppCompatActivity {
             if (controlador.verificarPin(enteredPin)) {
                 Toast.makeText(this, "PIN Correcto", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, ConfigCodeView.class));
+                finish();
             } else {
                 Toast.makeText(this, "PIN Incorrecto", Toast.LENGTH_SHORT).show();
             }

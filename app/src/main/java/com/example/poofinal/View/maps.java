@@ -178,6 +178,7 @@ public class maps extends AppCompatActivity implements OnMapReadyCallback, Googl
     public void openContactsApp() {
         Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
         startActivityForResult(intent, REQUEST_CODE_CONTACTS);
+        finish();
     }
 
     // Método para iniciar actualizaciones de ubicación

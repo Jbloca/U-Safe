@@ -34,6 +34,7 @@ public class MenuView extends AppCompatActivity {
     private void navigateTo(Class<?> targetActivity) {
         Intent intent = new Intent(MenuView.this, targetActivity);
         startActivity(intent);
+        finish();
     }
 }
 
