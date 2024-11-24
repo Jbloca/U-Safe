@@ -41,7 +41,8 @@
         android:layout_marginTop="40dp"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/textView32"
-        tools:layout_editor_absoluteX="1dp">
+        tools:layout_editor_absoluteX="1dp"
+        tools:ignore="MissingConstraints">
 
         <LinearLayout
             android:id="@+id/linearLayout3"
@@ -56,7 +57,8 @@
                 android:backgroundTint="#3E0101"
                 android:drawableEnd="@android:drawable/ic_menu_send"
                 android:gravity="center|left"
-                android:text="Bloquear Apps Sensibles" />
+                android:text="Bloquear Apps Sensibles"
+                android:textColor="#F8F6F6" />
 
             <TextView
                 android:id="@+id/textView33"
@@ -79,7 +81,8 @@
                 android:backgroundTint="#3E0101"
                 android:drawableEnd="@android:drawable/ic_menu_send"
                 android:gravity="center|left"
-                android:text="Borra Datos Críticos" />
+                android:text="Borra Datos Críticos"
+                android:textColor="#FAF8F8" />
 
             <TextView
                 android:id="@+id/textView11"
@@ -88,27 +91,30 @@
                 android:text="Seleccionar aplicaciones instaladas"
                 android:textColor="#B18A8A" />
 
-            <LinearLayout
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Switch
+                android:id="@+id/switch1"
+                android:layout_width="400dp"
+                android:layout_height="wrap_content"
+                android:text="Activar el Modo Oculto"
+                android:textColor="#FAFAFA"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            <TextView
+                android:id="@+id/textView34"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <Switch
-                    android:id="@+id/switch1"
-                    android:layout_width="400dp"
-                    android:layout_height="wrap_content"
-                    android:text="Activar el Modo Oculto"
-                    android:textColor="#FAFAFA" />
-
-                <TextView
-                    android:id="@+id/textView34"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Apague todas los sonidos y vibraciones"
-                    android:textColor="#B18A8A" />
-            </LinearLayout>
+                android:text="Apague todas los sonidos y vibraciones"
+                android:textColor="#B18A8A" />
         </LinearLayout>
+
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
