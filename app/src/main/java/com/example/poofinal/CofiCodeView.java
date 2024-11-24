@@ -14,9 +14,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.poofinal.BorraDataActivity;
-import com.example.poofinal.R;
-import com.example.poofinal.appsConfiguracionView;
+import com.example.poofinal.View.AppsConfiguracionView;
 
 public class CofiCodeView extends AppCompatActivity {
 
@@ -38,7 +36,7 @@ public class CofiCodeView extends AppCompatActivity {
         // Botón para abrir appsConfiguracionView
         Button button3 = findViewById(R.id.button3);
         button3.setOnClickListener(v -> {
-            Intent intent = new Intent(CofiCodeView.this, appsConfiguracionView.class);
+            Intent intent = new Intent(CofiCodeView.this, AppsConfiguracionView.class);
             startActivity(intent);
         });
 

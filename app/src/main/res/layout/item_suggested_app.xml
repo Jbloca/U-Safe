@@ -23,6 +23,11 @@
             android:layout_height="wrap_content"
             android:text="App Name"
             android:textSize="16sp" />
+        <CheckBox
+            android:id="@+id/app_checkboxapp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
 

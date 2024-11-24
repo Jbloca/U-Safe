@@ -37,6 +37,7 @@ public class CodigoView extends AppCompatActivity {
                 findViewById(R.id.textView7)
         };
 
+        setupEditTextNavigation(editTexts);
         // Configuramos el comportamiento de los EditTexts (navegar entre ellos con el teclado)
         Button confirmButton = findViewById(R.id.confirm_button);
         confirmButton.setOnClickListener(v -> {
