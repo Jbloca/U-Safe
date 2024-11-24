@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#3E0101"
-    tools:context=".CofiCodeView">
+    tools:context=".View.ConfigCodeView">
 
     <TextView
         android:id="@+id/textView31"

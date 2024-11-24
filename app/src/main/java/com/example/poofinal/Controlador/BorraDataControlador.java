@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.view.View;
 
 import com.example.poofinal.BorraDataActivity;
-import com.example.poofinal.CofiCodeView;
+import com.example.poofinal.View.ConfigCodeView;
 import com.example.poofinal.Modelo.BorraDataModelo;
 import com.example.poofinal.View.BorraDataView;
 
@@ -36,7 +36,7 @@ public class BorraDataControlador {
 
     // Navegar a la siguiente actividad
     private void navegarAlMenu() {
-        Intent intent = new Intent(borraDataActivity, CofiCodeView.class);
+        Intent intent = new Intent(borraDataActivity, ConfigCodeView.class);
         borraDataActivity.startActivity(intent);
     }
 

@@ -4,12 +4,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 
 import com.example.poofinal.AppItem;
-import com.example.poofinal.CofiCodeView;
+import com.example.poofinal.View.ConfigCodeView;
 import com.example.poofinal.Modelo.AppsConfiguracionModelo;
 import com.example.poofinal.View.AppsConfiguracionView;
-import com.example.poofinal.View.MenuView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +40,7 @@ public class AppsConfiguracionControlador {
         if (!selectedApps.isEmpty()) {
             vista.mostrarToast("Seleccionaste " + selectedApps.size() + " aplicaciones");
 
-            Intent intent= new Intent(vista, CofiCodeView.class);
+            Intent intent= new Intent(vista, ConfigCodeView.class);
             vista.startActivity(intent);
         } else {
             vista.mostrarToast("No seleccionaste ninguna aplicación");

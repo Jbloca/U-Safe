@@ -1,6 +1,5 @@
 package com.example.poofinal;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -8,7 +7,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.poofinal.View.MenuView;
+import com.example.poofinal.View.ConfigCodeView;
 
 public class BorraDataActivity extends AppCompatActivity {
 
@@ -44,7 +43,7 @@ public class BorraDataActivity extends AppCompatActivity {
 
     // Método para navegar a la actividad MenuView
     private void navegarAlMenu() {
-        Intent intent = new Intent(BorraDataActivity.this, CofiCodeView.class);
+        Intent intent = new Intent(BorraDataActivity.this, ConfigCodeView.class);
         startActivity(intent);
     }
 
