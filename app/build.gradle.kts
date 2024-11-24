@@ -64,4 +64,5 @@ dependencies {
     implementation (libs.github.glide)
     annotationProcessor (libs.compiler)
     implementation (libs.recyclerview.v131)
+    implementation (libs.play.services.maps)
 }

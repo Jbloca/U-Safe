@@ -1,5 +1,7 @@
 package com.example.poofinal.View;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +12,7 @@ import com.example.poofinal.R;
 import com.example.poofinal.View.CodigoView;
 import com.example.poofinal.View.ShareContactosView;
 import com.example.poofinal.View.HeapmapView;
+import com.example.poofinal.maps;
 
 public class MenuView extends AppCompatActivity {
 
@@ -29,7 +32,7 @@ public class MenuView extends AppCompatActivity {
 
         // Configuración de los click listeners
         imageButton6.setOnClickListener(view -> navigateTo(CodigoView.class));
-        imageButton5.setOnClickListener(view -> navigateTo(ShareContactosView.class));
+        imageButton5.setOnClickListener(view -> navigateTo(maps.class));
         imageButton4.setOnClickListener(view -> navigateTo(HeapmapView.class));
     }
 
