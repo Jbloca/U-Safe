@@ -3,7 +3,7 @@ package com.example.poofinal.Modelo;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class GestionPinModelo {
+public class ConfigurarPinModelo {
 
     private static final String PREFS_NAME = "AppPrefs";
     private static final String PIN_KEY = "user_pin";
@@ -11,7 +11,7 @@ public class GestionPinModelo {
     private final SharedPreferences sharedPreferences;
 
     // Constructor que recibe el contexto y lo usa para inicializar SharedPreferences
-    public GestionPinModelo(Context contexto) {
+    public ConfigurarPinModelo(Context contexto) {
         this.sharedPreferences = contexto.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 

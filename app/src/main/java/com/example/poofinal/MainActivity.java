@@ -5,8 +5,14 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.poofinal.Modelo.AppsConfiguracionModelo;
 import com.example.poofinal.Modelo.UserModelo;
+import com.example.poofinal.View.AppsConfiguracionView;
+import com.example.poofinal.View.ConfigurarPinView;
 import com.example.poofinal.View.MenuView;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         EditText editTextUsuario = findViewById(R.id.editTextText);
         EditText editTextPassword = findViewById(R.id.editTextText2);
         Button btnLogin = findViewById(R.id.btn_login);
+
 
         // Configuración del botón de login
         btnLogin.setOnClickListener(v -> {

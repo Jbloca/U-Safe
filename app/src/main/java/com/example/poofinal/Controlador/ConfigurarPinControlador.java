@@ -3,17 +3,17 @@ package com.example.poofinal.Controlador;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.example.poofinal.Modelo.GestionPinModelo;
+import com.example.poofinal.Modelo.ConfigurarPinModelo;
 import com.example.poofinal.View.ConfigurarPinView;
 
-public class ConfigurarPin {
+public class ConfigurarPinControlador {
     private final ConfigurarPinView configurarPinView;
-    private final GestionPinModelo gestionPinModelo;
+    private final ConfigurarPinModelo configurarPinModelo;
     private final Context context;
 
-    public ConfigurarPin(ConfigurarPinView view, GestionPinModelo model, Context context) {
+    public ConfigurarPinControlador(ConfigurarPinView view, ConfigurarPinModelo model, Context context) {
         this.configurarPinView = view;
-        this.gestionPinModelo = model;
+        this.configurarPinModelo = model;
         this.context = context;
 
         setupListeners();
@@ -37,7 +37,7 @@ public class ConfigurarPin {
             return;
         }
 
-        gestionPinModelo.guardarPin(enteredPin);
+        configurarPinModelo.guardarPin(enteredPin);
         Toast.makeText(context, "PIN guardado exitosamente", Toast.LENGTH_SHORT).show();
     }
 }

@@ -41,7 +41,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".maps"
+            android:name=".View.maps"
             android:exported="false" />
         <activity
             android:name=".View.ConfigCodeView"
@@ -53,9 +53,7 @@
         <activity
             android:name=".Controlador.VerificarPin"
             android:exported="false" />
-        <activity
-            android:name=".View.ShareContactosView"
-            android:exported="false" />
+
         <activity
             android:name=".BorraDataActivity"
             android:exported="false" />

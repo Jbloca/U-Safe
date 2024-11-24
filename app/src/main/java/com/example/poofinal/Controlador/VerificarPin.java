@@ -1,19 +1,16 @@
 package com.example.poofinal.Controlador;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.poofinal.MainActivity;
-import com.example.poofinal.Modelo.GestionPinModelo;
+import com.example.poofinal.Modelo.ConfigurarPinModelo;
 import com.example.poofinal.R;
 
 public class VerificarPin extends AppCompatActivity {
 
-    private GestionPinModelo pinManager;
+    private ConfigurarPinModelo pinManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,9 +18,9 @@ public class VerificarPin extends AppCompatActivity {
         setContentView(R.layout.activity_verificar_pin);
 
         // Crear instancia del modelo pasando el contexto actual
-        pinManager = new GestionPinModelo(this);  // Aquí se pasa el contexto solo al constructor.
+        pinManager = new ConfigurarPinModelo(this);  // Aquí se pasa el contexto solo al constructor.
 
-        EditText pinInput = findViewById(R.id.pinInput); // EditText donde el usuario ingresa el PIN
+       /* EditText pinInput = findViewById(R.id.pinInput); // EditText donde el usuario ingresa el PIN
         findViewById(R.id.submitPinButton).setOnClickListener(v -> {
             String enteredPin = pinInput.getText().toString().trim();
 
@@ -37,7 +34,7 @@ public class VerificarPin extends AppCompatActivity {
             } else {
                 mostrarMensaje("PIN incorrecto");
             }
-        });
+        });*/
     }
 
     private void mostrarMensaje(String mensaje) {

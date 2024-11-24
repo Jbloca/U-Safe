@@ -1,4 +1,4 @@
-package com.example.poofinal;
+package com.example.poofinal.View;
 
 import android.Manifest;
 import android.content.Intent;
@@ -19,6 +19,9 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.poofinal.Contact;
+import com.example.poofinal.ContactAdapter;
+import com.example.poofinal.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -107,6 +110,10 @@ public class maps extends AppCompatActivity implements OnMapReadyCallback, Googl
         if (map == null) return;
 
         if (isLocationPermissionGranted()) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                return;
+            }
             map.setMyLocationEnabled(true);
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION);

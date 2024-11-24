@@ -6,11 +6,20 @@
     android:padding="16dp">
 
     <EditText
-        android:id="@+id/pinInput2"
+        android:id="@+id/pinInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autofillHints=""
         android:hint="Ingresa tu nuevo PIN"
+        android:inputType="numberPassword"
+        android:maxLength="6"
+        android:textSize="18sp" />
+    <EditText
+        android:id="@+id/pinInput2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:hint="Vuelve a ingresar el PIN"
         android:inputType="numberPassword"
         android:maxLength="6"
         android:textSize="18sp" />

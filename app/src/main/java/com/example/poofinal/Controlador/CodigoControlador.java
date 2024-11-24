@@ -4,17 +4,17 @@ import android.view.KeyEvent;
 import android.text.TextWatcher;
 import android.text.Editable;
 
-import com.example.poofinal.Modelo.GestionPinModelo;
+import com.example.poofinal.Modelo.ConfigurarPinModelo;
 import com.example.poofinal.View.CodigoView;
 
 public class CodigoControlador {
 
-    private final GestionPinModelo modelo;
+    private final ConfigurarPinModelo modelo;
     private final CodigoView vista;
 
     public CodigoControlador(CodigoView vista) {
         this.vista = vista;
-        this.modelo = new GestionPinModelo(vista);
+        this.modelo = new ConfigurarPinModelo(vista);
     }
 
     // Configura la navegación entre los EditTexts con el teclado

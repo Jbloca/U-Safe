@@ -5,8 +5,8 @@
     android:id="@+id/activity_share_contactos_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#3E0101"
-    tools:context=".View.ShareContactosView">
+    android:background="#EAE8D8"
+    tools:context=".View.maps">
 
     <!-- Título de la sección -->
     <TextView
@@ -16,7 +16,7 @@
         android:layout_marginTop="32dp"
         android:text="Contactos de Confianza"
         android:textAlignment="center"
-        android:textColor="#FAFAFA"
+        android:textColor="#000000"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tu Ubicacion Actual"
-        android:textColor="#B18A8A"
+        android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.129"
@@ -67,7 +67,8 @@
         android:text="Compartir Ubicacion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2"
+        android:background="#CEC6B5"/>
 
     <ScrollView
         android:id="@+id/scrollView2"
