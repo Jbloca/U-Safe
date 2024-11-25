@@ -40,10 +40,11 @@ import java.util.List;
 
 public class maps extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener {
 
-    private GoogleMap map;
     private static final int REQUEST_CODE_LOCATION = 1;
     private static final int REQUEST_CODE_CONTACTS = 2;
     private static final int REQUEST_CODE_SMS = 3;
+
+    private GoogleMap map;
     private RecyclerView recyclerView;
     private ContactAdapter contactAdapter;
     private List<Contact> contactList = new ArrayList<>();
@@ -55,32 +56,44 @@ public class maps extends AppCompatActivity implements OnMapReadyCallback, Googl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        // Configurar RecyclerView
+        initializeUI();
+        requestPermissions();
+        setupLocationClient();
+        createMapFragment();
+    }
+
+    // Initialize UI components
+    private void initializeUI() {
         recyclerView = findViewById(R.id.recycler_view_contacts);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        // Configurar el adaptador del RecyclerView
         contactAdapter = new ContactAdapter(contactList);
         recyclerView.setAdapter(contactAdapter);
 
-        // Botón para abrir contactos
         Button btnOpenContacts = findViewById(R.id.btn_open_contacts);
         btnOpenContacts.setOnClickListener(v -> openContactsApp());
 
-        // Botón para compartir ubicación
         Button btnShareLocation = findViewById(R.id.btn_shareLocation);
         btnShareLocation.setOnClickListener(v -> startLocationUpdates());
-
-        // Configurar cliente de ubicación
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-        // Solicitar permisos
-        requestPermissions();
-
-        createFragment();
     }
 
-    private void createFragment() {
+    // Set up the FusedLocationClient
+    private void setupLocationClient() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+    }
+
+    // Request necessary permissions
+    private void requestPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION);
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, REQUEST_CODE_SMS);
+        }
+    }
+
+    // Create the map fragment
+    private void createMapFragment() {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
@@ -90,28 +103,36 @@ public class maps extends AppCompatActivity implements OnMapReadyCallback, Googl
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
+        setupMap();
+    }
+
+    // Set up map-related features
+    private void setupMap() {
         createMarker();
         map.setOnMyLocationButtonClickListener(this);
         enableLocation();
     }
 
+    // Create a marker on the map
     private void createMarker() {
-        LatLng coordinates = new LatLng(-12.072926, -76.952463);
+        LatLng coordinates = new LatLng(-12.072926, -76.952463); // Sample location
         MarkerOptions marker = new MarkerOptions().position(coordinates).title("Universidad San Ignacio de Loyola");
         map.addMarker(marker);
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 18f), 4000, null);
     }
 
-    private boolean isLocationPermissionGranted() {
-        return ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-    }
-
+    // Enable location on the map
     private void enableLocation() {
         if (map == null) return;
-
         if (isLocationPermissionGranted()) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
                 return;
             }
             map.setMyLocationEnabled(true);
@@ -120,10 +141,9 @@ public class maps extends AppCompatActivity implements OnMapReadyCallback, Googl
         }
     }
 
-    private void requestPermissions() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, REQUEST_CODE_SMS);
-        }
+    // Check if location permissions are granted
+    private boolean isLocationPermissionGranted() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 
     @Override
@@ -131,110 +151,114 @@ public class maps extends AppCompatActivity implements OnMapReadyCallback, Googl
         return false;
     }
 
-    // Llamada cuando se selecciona un contacto
+    // Handle result of contact selection
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == REQUEST_CODE_CONTACTS && resultCode == RESULT_OK) {
-            Uri contactUri = data.getData();
-            Cursor cursor = getContentResolver().query(contactUri, null, null, null, null);
+            handleContactSelection(data);
+        }
+    }
 
+    // Handle contact selection and display it
+    private void handleContactSelection(Intent data) {
+        Uri contactUri = data.getData();
+        try (Cursor cursor = getContentResolver().query(contactUri, null, null, null, null)) {
             if (cursor != null && cursor.moveToFirst()) {
-                // Obtener el nombre y el número del contacto
+                // Obtener el índice de las columnas
                 int nameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-                String contactName = cursor.getString(nameIndex);
-
                 int idIndex = cursor.getColumnIndex(ContactsContract.Contacts._ID);
-                String contactId = cursor.getString(idIndex);
 
-                // Obtener el número de teléfono del contacto
-                Cursor phoneCursor = getContentResolver().query(
-                        ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                        null,
-                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
-                        new String[]{contactId},
-                        null
-                );
+                // Verificar que los índices son válidos (no son -1)
+                if (nameIndex != -1 && idIndex != -1) {
+                    String contactName = cursor.getString(nameIndex);
+                    String contactId = cursor.getString(idIndex);
 
-                if (phoneCursor != null && phoneCursor.moveToFirst()) {
-                    int phoneIndex = phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-                    String contactPhone = phoneCursor.getString(phoneIndex);
+                    // Obtener el número de teléfono del contacto
+                    Cursor phoneCursor = getContentResolver().query(
+                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                            null,
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+                            new String[]{contactId},
+                            null
+                    );
 
-                    // Crear un nuevo objeto Contact y agregarlo al RecyclerView
-                    Contact contact = new Contact(contactName, contactPhone);
-                    contactList.add(contact);
-                    contactAdapter.notifyDataSetChanged(); // Notificar al adaptador que los datos han cambiado
-
-                    phoneCursor.close();
+                    if (phoneCursor != null && phoneCursor.moveToFirst()) {
+                        int phoneIndex = phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+                        // Verificar que el índice del número de teléfono es válido
+                        if (phoneIndex != -1) {
+                            String contactPhone = phoneCursor.getString(phoneIndex);
+                            Contact contact = new Contact(contactName, contactPhone);
+                            contactList.add(contact);
+                            contactAdapter.notifyDataSetChanged();
+                        }
+                        phoneCursor.close();
+                    }
                 }
-
-                cursor.close();
             }
         }
     }
 
-    // Método para abrir la app de contactos
+    // Open the contacts app to select a contact
     public void openContactsApp() {
         Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
         startActivityForResult(intent, REQUEST_CODE_CONTACTS);
         finish();
     }
 
-    // Método para iniciar actualizaciones de ubicación
+    // Start location updates
     private void startLocationUpdates() {
-        LocationRequest locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000) // Actualización cada 10 segundos
-                .setMinUpdateIntervalMillis(5000) // Intervalo mínimo de 5 segundos
+        LocationRequest locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000)
+                .setMinUpdateIntervalMillis(5000) // Minimum update interval (5 seconds)
                 .build();
 
-        // Configurar el LocationCallback
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {
                 if (locationResult == null) return;
 
-                // Obtener la última ubicación
                 Location location = locationResult.getLastLocation();
                 if (location != null) {
                     double latitude = location.getLatitude();
                     double longitude = location.getLongitude();
-
-                    // Mostrar la ubicación en el mapa
-                    LatLng currentLocation = new LatLng(latitude, longitude);
-                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f));
-
-                    // Compartir la ubicación actualizada con los contactos
+                    updateLocationOnMap(latitude, longitude);
                     sendLocationToContacts(latitude, longitude);
                 }
             }
         };
 
-        // Verificar permisos y solicitar actualizaciones de ubicación
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (isLocationPermissionGranted()) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
             fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, getMainLooper());
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION);
         }
     }
 
-    // Método para detener actualizaciones de ubicación
-    private void stopLocationUpdates() {
-        if (locationCallback != null) {
-            fusedLocationClient.removeLocationUpdates(locationCallback);
-        }
+    // Update the map with the current location
+    private void updateLocationOnMap(double latitude, double longitude) {
+        LatLng currentLocation = new LatLng(latitude, longitude);
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f));
     }
 
-    // Método para enviar la ubicación a los contactos
+    // Send location to all selected contacts
     private void sendLocationToContacts(double latitude, double longitude) {
         String locationLink = "https://www.google.com/maps?q=" + latitude + "," + longitude;
-
         for (Contact contact : contactList) {
             try {
                 SmsManager smsManager = SmsManager.getDefault();
                 smsManager.sendTextMessage(contact.getPhoneNumber(), null,
                         "Hola " + contact.getName() + ", mi ubicación actual es: " + locationLink,
                         null, null);
-
                 Toast.makeText(maps.this, "Ubicación enviada a " + contact.getName(), Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 Toast.makeText(maps.this, "Error al enviar SMS a " + contact.getName(), Toast.LENGTH_SHORT).show();
@@ -243,12 +267,21 @@ public class maps extends AppCompatActivity implements OnMapReadyCallback, Googl
         }
     }
 
+    // Stop location updates when activity is stopped
     @Override
     protected void onStop() {
         super.onStop();
-        // Detener actualizaciones de ubicación al salir de la actividad
         stopLocationUpdates();
     }
+
+    // Stop location updates
+    private void stopLocationUpdates() {
+        if (locationCallback != null) {
+            fusedLocationClient.removeLocationUpdates(locationCallback);
+        }
+    }
 }
+
+
 
 

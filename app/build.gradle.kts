@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.poofinal"
-        minSdk = 30
+        minSdk = 34
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -27,8 +27,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures {
         viewBinding = true
@@ -61,7 +61,6 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.play.services.auth)
     implementation(libs.osmdroid.android)
-    implementation ("org.osmdroid:osmdroid-android:6.1.20")
     implementation (libs.github.glide)
     annotationProcessor (libs.compiler)
     implementation (libs.recyclerview.v131)
