@@ -84,6 +84,10 @@ public class maps extends AppCompatActivity implements OnMapReadyCallback, Googl
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION);
         }
 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CODE_CONTACTS);
+        }
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, REQUEST_CODE_SMS);
         }
@@ -121,26 +125,11 @@ public class maps extends AppCompatActivity implements OnMapReadyCallback, Googl
     // Enable location on the map
     private void enableLocation() {
         if (map == null) return;
-        if (isLocationPermissionGranted()) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
-            }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             map.setMyLocationEnabled(true);
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION);
         }
-    }
-
-    // Check if location permissions are granted
-    private boolean isLocationPermissionGranted() {
-        return ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 
     @Override
@@ -156,33 +145,25 @@ public class maps extends AppCompatActivity implements OnMapReadyCallback, Googl
             handleContactSelection(data);
         }
     }
-    private static final int REQUEST_READ_CONTACTS = 100;
-
-    private void solicitarPermisos() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_READ_CONTACTS);
-        }
-    }
 
     // Handle contact selection and display it
-
     private void handleContactSelection(Intent data) {
         Uri contactUri = data.getData();
-        solicitarPermisos();
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CODE_CONTACTS);
+            return;
+        }
 
         try (Cursor cursor = getContentResolver().query(contactUri, null, null, null, null)) {
             if (cursor != null && cursor.moveToFirst()) {
-                // Obtener el índice de las columnas
                 int nameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
                 int idIndex = cursor.getColumnIndex(ContactsContract.Contacts._ID);
 
-                // Verificar que los índices son válidos (no son -1)
                 if (nameIndex != -1 && idIndex != -1) {
                     String contactName = cursor.getString(nameIndex);
                     String contactId = cursor.getString(idIndex);
 
-                    // Obtener el número de teléfono del contacto
                     Cursor phoneCursor = getContentResolver().query(
                             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                             null,
@@ -193,7 +174,6 @@ public class maps extends AppCompatActivity implements OnMapReadyCallback, Googl
 
                     if (phoneCursor != null && phoneCursor.moveToFirst()) {
                         int phoneIndex = phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-                        // Verificar que el índice del número de teléfono es válido
                         if (phoneIndex != -1) {
                             String contactPhone = phoneCursor.getString(phoneIndex);
                             Contact contact = new Contact(contactName, contactPhone);
@@ -204,6 +184,8 @@ public class maps extends AppCompatActivity implements OnMapReadyCallback, Googl
                     }
                 }
             }
+        } catch (Exception e) {
+            Toast.makeText(this, "Error al manejar contacto: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -211,25 +193,24 @@ public class maps extends AppCompatActivity implements OnMapReadyCallback, Googl
     public void openContactsApp() {
         Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
         startActivityForResult(intent, REQUEST_CODE_CONTACTS);
-        finish();
     }
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,@NonNull int[] grantResults) {
-        if (requestCode == REQUEST_READ_CONTACTS) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permiso concedido, puedes proceder con la operación.
-            } else {
-                // Permiso denegado, muestra un mensaje o maneja la lógica.
-                Toast.makeText(this, "Permiso de contactos denegado", Toast.LENGTH_SHORT).show();
-            }
-        }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_LOCATION && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            enableLocation();
+        } else if (requestCode == REQUEST_CODE_CONTACTS && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Permiso de contactos otorgado", Toast.LENGTH_SHORT).show();
+        } else if (requestCode == REQUEST_CODE_SMS && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Permiso de SMS otorgado", Toast.LENGTH_SHORT).show();
+        }
     }
-    // Start location updates
+
     private void startLocationUpdates() {
         LocationRequest locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000)
-                .setMinUpdateIntervalMillis(5000) // Minimum update interval (5 seconds)
+                .setMinUpdateIntervalMillis(5000)
                 .build();
-
 
         locationCallback = new LocationCallback() {
             @Override
@@ -245,53 +226,45 @@ public class maps extends AppCompatActivity implements OnMapReadyCallback, Googl
                 }
             }
         };
-        solicitarPermisos();
 
-        if (isLocationPermissionGranted()) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-
-
-                return;
-            }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, getMainLooper());
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION);
         }
     }
 
-    // Update the map with the current location
     private void updateLocationOnMap(double latitude, double longitude) {
         LatLng currentLocation = new LatLng(latitude, longitude);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f));
     }
 
-    // Send location to all selected contacts
     private void sendLocationToContacts(double latitude, double longitude) {
         String locationLink = "https://www.google.com/maps?q=" + latitude + "," + longitude;
         for (Contact contact : contactList) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, REQUEST_CODE_SMS);
+                return;
+            }
+
             try {
                 SmsManager smsManager = SmsManager.getDefault();
                 smsManager.sendTextMessage(contact.getPhoneNumber(), null,
                         "Hola " + contact.getName() + ", mi ubicación actual es: " + locationLink,
                         null, null);
-                Toast.makeText(maps.this, "Ubicación enviada a " + contact.getName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Ubicación enviada a " + contact.getName(), Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
-                Toast.makeText(maps.this, "Error al enviar SMS a " + contact.getName(), Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
+                Toast.makeText(this, "Error al enviar SMS: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    // Stop location updates when activity is stopped
     @Override
     protected void onStop() {
         super.onStop();
         stopLocationUpdates();
     }
 
-    // Stop location updates
     private void stopLocationUpdates() {
         if (locationCallback != null) {
             fusedLocationClient.removeLocationUpdates(locationCallback);
