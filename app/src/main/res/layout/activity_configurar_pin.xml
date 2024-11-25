@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#EAE8D8"
     android:padding="16dp">
 
     <EditText
@@ -28,6 +29,7 @@
         android:id="@+id/savePinButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="#CEC6B5"
         android:text="Guardar PIN"
         android:textSize="16sp" />
 </LinearLayout>

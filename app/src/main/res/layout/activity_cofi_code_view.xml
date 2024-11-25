@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#3E0101"
+    android:background="#EAE8D8"
     tools:context=".View.ConfigCodeView">
 
     <TextView
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
         android:text="Codigo de Emergencia"
-        android:textColor="#FAFAFA"
+        android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
         android:text="Configuracion:"
-        android:textColor="#FAFAFA"
+        android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@+id/textView31"
@@ -48,48 +48,50 @@
             android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="#CEC6B5">
 
             <Button
                 android:id="@+id/button3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#3E0101"
+                android:backgroundTint="#CEC6B5"
                 android:drawableEnd="@android:drawable/ic_menu_send"
                 android:gravity="center|left"
                 android:text="Bloquear Apps Sensibles"
-                android:textColor="#F8F6F6" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/textView33"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Elige que aplicaciones bloquear"
-                android:textColor="#B18A8A" />
+                android:textColor="#D9563333" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
+            android:background="#CEC6B5"
             android:orientation="vertical">
 
             <Button
                 android:id="@+id/button2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#3E0101"
+                android:backgroundTint="#CEC6B5"
                 android:drawableEnd="@android:drawable/ic_menu_send"
                 android:gravity="center|left"
                 android:text="Borra Datos Críticos"
-                android:textColor="#FAF8F8" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/textView11"
                 android:layout_width="241dp"
                 android:layout_height="wrap_content"
                 android:text="Seleccionar aplicaciones instaladas"
-                android:textColor="#B18A8A" />
+                android:textColor="#D9563333" />
 
         </LinearLayout>
 
@@ -97,14 +99,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="#CEC6B5">
 
             <Switch
                 android:id="@+id/switch1"
                 android:layout_width="400dp"
                 android:layout_height="wrap_content"
                 android:text="Activar el Modo Oculto"
-                android:textColor="#FAFAFA"
+                android:textColor="@color/black"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             <TextView
@@ -112,7 +115,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Apague todas los sonidos y vibraciones"
-                android:textColor="#B18A8A" />
+                android:textColor="#D9563333" />
         </LinearLayout>
 
     </LinearLayout>

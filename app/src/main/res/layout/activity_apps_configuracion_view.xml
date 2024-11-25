@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#EAE8D8">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -18,6 +19,7 @@
         android:id="@+id/confirm_buttonapp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="#CEC6B5"
         android:text="Confirmar aplicaciones"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
