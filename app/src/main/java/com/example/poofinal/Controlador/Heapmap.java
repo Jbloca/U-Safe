@@ -1,22 +1,21 @@
 package com.example.poofinal.Controlador;
 
+import android.content.Context;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import com.example.poofinal.Modelo.HeapmapModelo;
-import com.example.poofinal.View.HeapmapView;
 
 public class Heapmap {
 
     private final HeapmapModelo heapmapModel;
-    private final HeapmapView heapmapView;
 
-    public Heapmap(HeapmapView heapmapView) {
+    public Heapmap(Context context) {
         this.heapmapModel = new HeapmapModelo();
-        this.heapmapView = heapmapView;
     }
 
     public void loadMap(WebView webView) {
         String mapUrl = heapmapModel.getMapUrl();
-        heapmapView.loadMapUrl(webView, mapUrl);
+        webView.setWebViewClient(new WebViewClient());
+        webView.loadUrl(mapUrl);
     }
 }
-

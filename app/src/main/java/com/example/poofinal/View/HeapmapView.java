@@ -10,8 +10,6 @@ import com.example.poofinal.R;
 
 public class HeapmapView extends AppCompatActivity {
 
-    private Heapmap heapmapController;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,14 +22,9 @@ public class HeapmapView extends AppCompatActivity {
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
 
-        // Inicializar controlador y cargar mapa
-        heapmapController = new Heapmap(this);
+        // Controlador
+        Heapmap heapmapController = new Heapmap(this);
         heapmapController.loadMap(webView);
     }
-
-    public void loadMapUrl(WebView webView, String url) {
-        // Cargar la URL en el WebView
-        webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl(url);
-    }
 }
+
