@@ -41,7 +41,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".View.maps"
+            android:name=".maps"
             android:exported="false" />
         <activity
             android:name=".View.ConfigCodeView"

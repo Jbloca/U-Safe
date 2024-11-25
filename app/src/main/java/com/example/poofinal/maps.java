@@ -1,4 +1,4 @@
-package com.example.poofinal.View;
+package com.example.poofinal;
 
 import android.Manifest;
 import android.content.Intent;
@@ -19,9 +19,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.poofinal.Contact;
-import com.example.poofinal.ContactAdapter;
-import com.example.poofinal.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -155,14 +152,35 @@ public class maps extends AppCompatActivity implements OnMapReadyCallback, Googl
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_CONTACTS && resultCode == RESULT_OK) {
-            handleContactSelection(data);
+        if (requestCode == 2 && resultCode == RESULT_OK) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
+                    == PackageManager.PERMISSION_GRANTED) {
+                // Accede a los datos de contactos.
+                Uri contactUri = data.getData();
+                Cursor cursor = getContentResolver().query(contactUri, null, null, null, null);
+                if (cursor != null && cursor.moveToFirst()) {
+                    // Procesa los datos del contacto.
+                    cursor.close();
+                }
+            } else {
+                Toast.makeText(this, "No tienes permiso para leer contactos", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    private static final int REQUEST_READ_CONTACTS = 100;
+
+    private void solicitarPermisos() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_READ_CONTACTS);
         }
     }
 
     // Handle contact selection and display it
     private void handleContactSelection(Intent data) {
         Uri contactUri = data.getData();
+        solicitarPermisos();
+
         try (Cursor cursor = getContentResolver().query(contactUri, null, null, null, null)) {
             if (cursor != null && cursor.moveToFirst()) {
                 // Obtener el índice de las columnas
@@ -203,13 +221,25 @@ public class maps extends AppCompatActivity implements OnMapReadyCallback, Googl
     public void openContactsApp() {
         Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
         startActivityForResult(intent, REQUEST_CODE_CONTACTS);
+        finish();
     }
-
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,@NonNull int[] grantResults) {
+        if (requestCode == REQUEST_READ_CONTACTS) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permiso concedido, puedes proceder con la operación.
+            } else {
+                // Permiso denegado, muestra un mensaje o maneja la lógica.
+                Toast.makeText(this, "Permiso de contactos denegado", Toast.LENGTH_SHORT).show();
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
     // Start location updates
     private void startLocationUpdates() {
         LocationRequest locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000)
                 .setMinUpdateIntervalMillis(5000) // Minimum update interval (5 seconds)
                 .build();
+
 
         locationCallback = new LocationCallback() {
             @Override
@@ -225,16 +255,14 @@ public class maps extends AppCompatActivity implements OnMapReadyCallback, Googl
                 }
             }
         };
+        solicitarPermisos();
 
         if (isLocationPermissionGranted()) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
                 //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
+
+
                 return;
             }
             fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, getMainLooper());

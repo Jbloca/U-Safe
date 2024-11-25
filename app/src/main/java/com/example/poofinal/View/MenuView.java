@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.poofinal.R;
+import com.example.poofinal.maps;
 
 public class MenuView extends AppCompatActivity {
 
