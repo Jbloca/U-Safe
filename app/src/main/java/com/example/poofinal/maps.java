@@ -152,19 +152,8 @@ public class maps extends AppCompatActivity implements OnMapReadyCallback, Googl
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 2 && resultCode == RESULT_OK) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
-                    == PackageManager.PERMISSION_GRANTED) {
-                // Accede a los datos de contactos.
-                Uri contactUri = data.getData();
-                Cursor cursor = getContentResolver().query(contactUri, null, null, null, null);
-                if (cursor != null && cursor.moveToFirst()) {
-                    // Procesa los datos del contacto.
-                    cursor.close();
-                }
-            } else {
-                Toast.makeText(this, "No tienes permiso para leer contactos", Toast.LENGTH_SHORT).show();
-            }
+        if (requestCode == REQUEST_CODE_CONTACTS && resultCode == RESULT_OK) {
+            handleContactSelection(data);
         }
     }
     private static final int REQUEST_READ_CONTACTS = 100;
@@ -177,6 +166,7 @@ public class maps extends AppCompatActivity implements OnMapReadyCallback, Googl
     }
 
     // Handle contact selection and display it
+
     private void handleContactSelection(Intent data) {
         Uri contactUri = data.getData();
         solicitarPermisos();
