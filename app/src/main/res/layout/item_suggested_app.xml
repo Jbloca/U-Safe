@@ -2,11 +2,14 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    android:background="#EAE8D8"
+    android:backgroundTint="#EAE8D8">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#EAE8D8"
         android:orientation="horizontal"
         android:padding="10dp">
 
@@ -23,6 +26,7 @@
             android:layout_height="wrap_content"
             android:text="App Name"
             android:textSize="16sp" />
+
         <CheckBox
             android:id="@+id/app_checkboxapp"
             android:layout_width="wrap_content"
