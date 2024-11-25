@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:background="#EAE8D8"
+    android:background="#3E0101"
     android:layout_height="match_parent"
     tools:context=".View.CodigoView">
 
@@ -14,7 +14,7 @@
         android:layout_height="31dp"
         android:text="Ingresa el código de emergencia"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="#FAFAFA"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -39,7 +39,7 @@
             android:layout_height="50dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/style_border_editext"
-            android:backgroundTint="#CEC6B5"
+            android:backgroundTint="#592626"
             android:gravity="center_horizontal|center_vertical"
             android:inputType="number"
             android:maxLength="1" />  <!-- Limiter a un solo dígito -->
@@ -50,7 +50,7 @@
             android:layout_height="50dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/style_border_editext"
-            android:backgroundTint="#CEC6B5"
+            android:backgroundTint="#592626"
             android:gravity="center_horizontal|center_vertical"
             android:inputType="number"
             android:maxLength="1" />
@@ -61,7 +61,7 @@
             android:layout_height="50dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/style_border_editext"
-            android:backgroundTint="#CEC6B5"
+            android:backgroundTint="#592626"
             android:gravity="center_horizontal|center_vertical"
             android:inputType="number"
             android:maxLength="1" />
@@ -72,7 +72,7 @@
             android:layout_height="50dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/style_border_editext"
-            android:backgroundTint="#CEC6B5"
+            android:backgroundTint="#592626"
             android:gravity="center_horizontal|center_vertical"
             android:inputType="number"
             android:maxLength="1" />
@@ -83,7 +83,7 @@
             android:layout_height="50dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/style_border_editext"
-            android:backgroundTint="#CEC6B5"
+            android:backgroundTint="#592626"
             android:gravity="center_horizontal|center_vertical"
             android:inputType="number"
             android:maxLength="1" />
@@ -94,7 +94,7 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:background="@drawable/style_border_editext"
-            android:backgroundTint="#CEC6B5"
+            android:backgroundTint="#592626"
             android:gravity="center_horizontal|center_vertical"
             android:inputType="number"
             android:maxLength="1" />
@@ -105,7 +105,7 @@
         android:layout_width="376dp"
         android:layout_height="76dp"
         android:text="Ingrese un código de 6 dígitos para activar el modo emergencia. Sólo debes usar este código si estás en peligro."
-        android:textColor="#D9563333"
+        android:textColor="#B18A8A"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -121,7 +121,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
-        android:backgroundTint="#CEC6B5"
+        android:background="#E70606"
         android:text="Confirmar"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

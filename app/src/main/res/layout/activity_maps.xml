@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EAE8D8">
+    android:background="#3E0101">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/map"
@@ -16,7 +16,7 @@
         android:layout_below="@id/map"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:background="#CEC6B5"
+        android:background="#E70606"
         android:text="Abrir Contactos"
         android:textStyle="bold" />
 
@@ -30,7 +30,7 @@
         android:layout_marginStart="118dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="115dp"
-        android:background="#CEC6B5"
+        android:background="#E70606"
         android:text="Compartir Ubicación"
         android:textStyle="bold" />
 
@@ -39,8 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btn_shareLocation"
-        android:layout_marginTop="13dp"
-        android:background="#EAE8D8"/>
+        android:layout_marginTop="13dp" />
 </RelativeLayout>
 
 
