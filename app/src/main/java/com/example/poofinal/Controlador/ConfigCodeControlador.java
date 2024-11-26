@@ -2,9 +2,9 @@ package com.example.poofinal.Controlador;
 
 import android.content.Intent;
 
-import com.example.poofinal.BorraDataActivity;
 import com.example.poofinal.Modelo.ConfigCodeModelo;
 import com.example.poofinal.View.AppsConfiguracionView;
+import com.example.poofinal.View.BorraDataView;
 import com.example.poofinal.View.ConfigCodeView;
 import com.example.poofinal.View.MenuView;
 
@@ -24,7 +24,7 @@ public class ConfigCodeControlador {
     }
 
     public void abrirBorraDataView() {
-        Intent intent = new Intent(vista, BorraDataActivity.class);
+        Intent intent = new Intent(vista, BorraDataView.class);
         vista.startActivity(intent);
     }
 

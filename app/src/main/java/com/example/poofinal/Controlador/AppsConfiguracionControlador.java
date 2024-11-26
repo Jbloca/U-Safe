@@ -2,6 +2,7 @@ package com.example.poofinal.Controlador;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 
 import com.example.poofinal.AppItem;
 import com.example.poofinal.View.ConfigCodeView;
@@ -29,23 +30,25 @@ public class AppsConfiguracionControlador {
 
     // Manejar la selección de las aplicaciones
     public void manejarSeleccion() {
-        List<AppItem> selectedApps = new ArrayList<>();
+        ArrayList<String> selectedAppsPackages = new ArrayList<>();
         for (AppItem app : modelo.getAppsList()) {
             if (app.isSelected()) {
-                selectedApps.add(app);
+                selectedAppsPackages.add(app.getPackageName());
             }
         }
 
-        // Llamar a la vista para mostrar el resultado
-        if (!selectedApps.isEmpty()) {
-            vista.mostrarToast("Seleccionaste " + selectedApps.size() + " aplicaciones");
-
-            Intent intent= new Intent(vista, ConfigCodeView.class);
+        if (!selectedAppsPackages.isEmpty()) {
+            Intent intent = new Intent(vista, ConfigCodeView.class);
+            intent.putStringArrayListExtra("SELECTED_APPS", selectedAppsPackages); // Pasar las aplicaciones seleccionadas
             vista.startActivity(intent);
         } else {
             vista.mostrarToast("No seleccionaste ninguna aplicación");
         }
-
+    }
+    private void desinstalarApp(String packageName) {
+        Intent intent = new Intent(Intent.ACTION_DELETE);
+        intent.setData(Uri.parse("package:" + packageName));
+        vista.startActivity(intent);
     }
 }
 

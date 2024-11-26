@@ -36,8 +36,9 @@
         tools:layout_editor_absoluteX="16dp" />
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="409dp"
-        android:layout_height="351dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/textView32"
@@ -46,9 +47,9 @@
 
         <LinearLayout
             android:id="@+id/linearLayout3"
-            android:background="#CEC6B5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#CEC6B5"
             android:orientation="vertical">
 
             <Button
@@ -124,7 +125,17 @@
                 android:layout_marginStart="10dp"
                 android:text="Apague todas los sonidos y vibraciones"
                 android:textColor="#F8564242" />
+
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_panico"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="110dp"
+            android:layout_marginTop="30dp"
+            android:drawableStart="@drawable/baseline_auto_delete_24"
+            android:text="BOTON DE PANICO" />
 
     </LinearLayout>
 

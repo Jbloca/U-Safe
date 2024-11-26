@@ -23,14 +23,15 @@ public class AppsConfiguracionModelo {
         return appsList;
     }
 
-    // Cargar las aplicaciones instaladas
+    // Cargar las aplicaciones installs
     public void loadAppsList(PackageManager packageManager) {
         List<ApplicationInfo> installedApplications = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
         for (ApplicationInfo appInfo : installedApplications) {
             if ((appInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
                 String appName = appInfo.loadLabel(packageManager).toString();
+                String packageName = appInfo.packageName;
                 Drawable appIcon = appInfo.loadIcon(packageManager);
-                appsList.add(new AppItem(appName, appIcon));
+                appsList.add(new AppItem(appName, appIcon, packageName));
             }
         }
     }

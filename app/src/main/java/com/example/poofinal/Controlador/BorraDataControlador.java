@@ -1,48 +1,58 @@
 package com.example.poofinal.Controlador;
 
-import android.content.Intent;
-import android.view.View;
-
-import com.example.poofinal.BorraDataActivity;
-import com.example.poofinal.View.ConfigCodeView;
 import com.example.poofinal.Modelo.BorraDataModelo;
+import com.example.poofinal.View.ConfigCodeView;
 import com.example.poofinal.View.BorraDataView;
+
+import java.util.ArrayList;
 
 public class BorraDataControlador {
 
     private final BorraDataView borraDataView;
+    private final ConfigCodeView configCodeView;
     private final BorraDataModelo borraDataModelo;
-    private final BorraDataActivity borraDataActivity;
 
-    public BorraDataControlador(BorraDataView borraDataView, BorraDataModelo borraDataModelo, BorraDataActivity borraDataActivity) {
+    // Constructor que recibe BorraDataView y BorraDataModelo
+    public BorraDataControlador(BorraDataView borraDataView, BorraDataModelo borraDataModelo) {
         this.borraDataView = borraDataView;
         this.borraDataModelo = borraDataModelo;
-        this.borraDataActivity = borraDataActivity;
-
-        // Configurar el comportamiento del botón "Guardar Datos"
-        this.borraDataView.setGuardarDatosClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                borrarDatos();  // Lógica de borrado de datos
-                navegarAlMenu(); // Navegar a la siguiente actividad
-            }
-        });
+        this.configCodeView = null; // No es necesario en BorraDataView
     }
 
-    // Lógica para borrar los datos
+    // Constructor para ConfigCodeView, que no tiene la vista BorraDataView
+    public BorraDataControlador(ConfigCodeView configCodeView, BorraDataModelo borraDataModelo) {
+        this.configCodeView = configCodeView;
+        this.borraDataModelo = borraDataModelo;
+        this.borraDataView = null; // No es necesario en ConfigCodeView
+    }
+
+    // Guardar las opciones seleccionadas
+    public void guardarOpcionesSeleccionadas(ArrayList<String> opcionesSeleccionadas) {
+        // Pasar las opciones seleccionadas al modelo para su procesamiento
+        borraDataModelo.setOpcionesSeleccionadas(opcionesSeleccionadas);
+
+        // Llamar al método para borrar los datos basados en las opciones seleccionadas
+        borrarDatos();
+    }
+
+    // Lógica para borrar los datos seleccionados
     private void borrarDatos() {
-        borraDataModelo.borrarDatos();
-    }
+        if (borraDataModelo.getOpcionesSeleccionadas().contains("Archivos")) {
+            borraDataModelo.borrarArchivos(); // Borrar archivos
+        }
+        if (borraDataModelo.getOpcionesSeleccionadas().contains("Fotos")) {
+            borraDataModelo.borrarFotos();   // Borrar fotos
+        }
+        if (borraDataModelo.getOpcionesSeleccionadas().contains("Contactos")) {
+            borraDataModelo.borrarContactos(); // Borrar contactos
+        }
+        if (borraDataModelo.getOpcionesSeleccionadas().contains("Mensajes")) {
+            borraDataModelo.borrarMensajes(); // Borrar mensajes
+        }
 
-    // Navegar a la siguiente actividad
-    private void navegarAlMenu() {
-        Intent intent = new Intent(borraDataActivity, ConfigCodeView.class);
-        borraDataActivity.startActivity(intent);
-    }
-
-    // Método para inicializar la vista (se puede usar si hay más inicializaciones)
-    public void iniciar() {
-        borraDataView.setTitle("Borrar Datos");
+        // Mostrar mensaje de éxito
+        if (configCodeView != null) {
+            configCodeView.mostrarMensaje("Datos eliminados correctamente.");
+        }
     }
 }
-

@@ -11,7 +11,7 @@ public class SuggestedApp {
     public SuggestedApp(String name, Drawable icon) {
         this.name = name;
         this.icon = icon;
-        this.description = "Descripción no disponible"; // Puedes poner una descripción predeterminada o nula
+        this.description = "Descripción no disponible";
     }
 
     public String getName() {
