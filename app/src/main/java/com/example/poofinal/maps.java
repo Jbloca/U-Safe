@@ -232,6 +232,9 @@ public class maps extends AppCompatActivity implements OnMapReadyCallback, Googl
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION);
         }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, REQUEST_CODE_SMS);
+        }
     }
 
     private void updateLocationOnMap(double latitude, double longitude) {
